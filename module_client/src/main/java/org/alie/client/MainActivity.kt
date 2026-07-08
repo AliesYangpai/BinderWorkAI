@@ -113,6 +113,10 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+        mBinding.btn9.setOnClickListener {
+            Log.i(tag, "当前控件被点击")
+        }
+
 
     }
     private suspend fun workBtn8() {
