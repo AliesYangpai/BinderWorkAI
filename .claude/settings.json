@@ -14,12 +14,5 @@
         ]
       }
     ]
-  },
-  "extraKnownMarketplaces": {
-    "claude-plugins-official": {
-      "source": {
-        "source": "anthropic"
-      }
-    }
   }
 }
