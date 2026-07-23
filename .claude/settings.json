@@ -3,13 +3,13 @@
     "PostToolUse": [
       {
         "matcher": "Bash",
-        "pattern": "git commit.*",
-        "description": "git commit 后触发代码审查后处理",
+        "pattern": "git push.*",
+        "description": "git push 后自动创建 GitHub PR",
         "hooks": [
           {
             "type": "command",
-            "command": "bash ${CLAUDE_PROJECT_DIR}/.claude/hooks/post-review.sh",
-            "timeout": 120000
+            "command": "bash ${CLAUDE_PROJECT_DIR}/.claude/hooks/post-push.sh",
+            "timeout": 60000
           }
         ]
       }
