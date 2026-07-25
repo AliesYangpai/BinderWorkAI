@@ -145,6 +145,10 @@ class MainActivity : AppCompatActivity() {
             Log.i(tag, "btn16被点击了")
         }
 
+        mBinding.btn17.setOnClickListener {
+            Log.i(tag, "btn17被点击了")
+        }
+
 
     }
     private suspend fun workBtn8() {
