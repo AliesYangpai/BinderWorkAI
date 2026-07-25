@@ -135,11 +135,11 @@ module_server (android-app) ──依赖──▶ module_aidl (android-library)
 | `hooks/pre-commit.sh` | **Shell 脚本（Hook 实现）** | Git 提交前自动检查：敏感文件拦截、AIDL/Parcelable 配对、Kotlin 编译、调试代码残留、单元测试 |
 | `hooks/post-review.sh` | **Shell 脚本（Hook 实现）** | 代码审查后处理：硬编码密钥扫描、AIDL oneway 语义检查、空安全分析、构建验证、审查报告归档与趋势对比 |
 | `commands/*.md` | **斜杠命令（Command）** | 定义可通过 `/` 调用的自定义命令（如 `/code-review`），包含审查维度和输出格式模板 |
-| `skills/project-specific/SKILL.md` | **项目技能（Skill）** | 本项目专属的开发引导：AIDL 新增四步法、协程封装模式、按钮添加规范、构建验证流程 |
+| `rules/*.md` | **编码规则（Rule）** | 每次对话自动注入的编码规范文件，包含 AIDL 新增流程、协程封装模式、按钮添加规范等 |
 | `review-logs/` | **日志目录** | 存放 post-review 自动生成的审查报告（`review-*.md`）和待办清单（`TODO-*.md`） |
 
-> **Hook vs Skill vs Command vs CLAUDE.md 的区别**：
+> **Hook vs Command vs Rule vs CLAUDE.md 的区别**：
 > - **Hook** — 由 Claude Code runtime 或 Git 在特定事件时**自动触发**执行脚本，无需用户手动调用
-> - **Skill** — 由用户通过 `/skill-name` 或 Claude 自动识别场景后**按需加载**，提供领域知识和工作流引导
 > - **Command** — 用户通过 `/command-name` **手动调用**的斜杠命令，本质是预定义的提示词模板
+> - **Rule** — 每次对话**自动注入**上下文的编码规范文件，适合需要始终生效的强制性约定
 > - **CLAUDE.md** — 每次对话**自动注入**上下文的项目指令文件，是 Claude 了解项目的第一手资料

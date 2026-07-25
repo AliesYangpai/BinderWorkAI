@@ -2,12 +2,8 @@
 .gradle/
 build/
 */build/
-
 # —— IDE (Android Studio / IntelliJ) ——
 .idea/
-*.iml
-*.iws
-*.ipr
 
 # —— OS 生成文件 ——
 .DS_Store

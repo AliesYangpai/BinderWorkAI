@@ -1,15 +1,10 @@
----
-name: binderwork-ai-guide
-description: BinderWorkAI 项目开发引导 — AIDL 接口新增、协程封装、模块创建等场景的约定步骤，确保代码风格与项目一致。
----
+# BinderWorkAI 编码规则
 
-# BinderWorkAI 项目开发引导
-
-当用户在本项目中进行以下操作时，遵循本 skill 的约定。
+当在本项目中进行以下操作时，必须遵守本文件的约定。
 
 ## 1. 新增 AIDL 接口
 
-当用户需要新增跨进程通信接口（AIDL method）或新增 Parcelable 类型时，按以下步骤进行：
+当需要新增跨进程通信接口（AIDL method）或新增 Parcelable 类型时，按以下步骤进行：
 
 1. **定义 AIDL**：在 `module_aidl/src/main/aidl/org/alie/aidl/` 下创建或修改 `.aidl` 文件，声明接口方法或 parcelable 类型。
 2. **Parcelable 实现**：若新增了 parcelable 声明，必须在 `module_aidl/src/main/java/org/alie/aidl/` 下创建同名的 Kotlin 数据类，实现 `android.os.Parcelable` 接口（参考 `IUserInfo.kt`）。
