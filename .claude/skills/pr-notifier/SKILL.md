@@ -11,7 +11,7 @@ description: >
 本 skill 管理 BinderWorkAI 项目的 PR 生命周期自动化。分为两个阶段：
 
 1. **即时通知** — push 代码 → 自动创建 PR → 发送邮件
-2. **定时合并** — 后台等待 30 分钟 → 检查是否有人工审核 → 无人审核则自动 merge
+2. **定时合并** — 后台等待 30 分钟 → 检查是否有人工审核 → 无人审核则自动 merge + 清理本地
 
 ## 流水线架构
 
@@ -29,7 +29,7 @@ git push
 检查 PR review 状态
   ├── 有 review → 跳过自动合并，发邮件通知手动处理
   └── 无 review → gh pr merge --merge --delete-branch
-                     ├── 成功 → 发邮件通知合并完成
+                     ├── 成功 → 删除本地分支 → 切回 main → git pull → 发邮件
                      └── 失败 → 发邮件告警
 ```
 
@@ -38,7 +38,7 @@ git push
 | 文件 | 作用 |
 |------|------|
 | `.claude/hooks/post-push.sh` | push 后入口：创建 PR、发邮件、启动定时器 |
-| `.claude/hooks/auto-merge.sh` | 30 分钟后执行：检查 review 并决定是否合并 |
+| `.claude/hooks/auto-merge.sh` | 30 分钟后执行：检查 review → 合并 → 清理本地分支 + 切回 main + pull |
 | `~/.msmtprc` | SMTP 配置（QQ 邮箱，密码从 Keychain 读取） |
 | `.claude/settings.json` | Hook 注册：`PostToolUse` → `Bash` 触发 post-push.sh |
 
@@ -50,7 +50,7 @@ git push
 - **DELAY_SECONDS** (`1800`) — 等待自动合并的秒数（30 分钟）
 - **合并策略** — `auto-merge.sh` 中 `gh pr merge` 的 `--merge` 标志，可改为 `--squash` 或 `--rebase`
 
-## 手动测试
+## 手动操作
 
 ### 测试邮件发送
 ```bash
@@ -86,4 +86,11 @@ kill <PID>
 - PR 已有至少 1 条 human review
 - `gh` CLI 未登录或权限不足
 
-这确保了自动合并不会绕过人工审核——它只在你真的忘了的时候救场。
+## 合并后的本地清理
+
+自动合并成功后，`auto-merge.sh` 会自动执行：
+1. 删除本地对应的 feature 分支（`git branch -d`）
+2. 切换到 `main` 分支
+3. 执行 `git pull` 拉取最新代码
+
+这确保了自动合并完成后，本地仓库不留残留分支并与远端保持同步。
